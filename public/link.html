@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QR Link</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Outfit:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-kind="link">
+    <main class="workspace">
+      <aside class="rail">
+        <a class="back" href="/">← Kembali</a>
+        <h2>Instruksi</h2>
+        <p class="rail-lead">Berikut syarat yang diperlukan</p>
+        <ol class="steps">
+          <li>
+            <span class="num light">1</span>
+            <p>Gunakan tautan http atau https. Skema lain tidak diterima.</p>
+          </li>
+          <li>
+            <span class="num light">2</span>
+            <p>Jangan kosongkan tautan dan jangan beri spasi.</p>
+          </li>
+          <li>
+            <span class="num light">3</span>
+            <p>Panjang maksimal 2.953 byte.</p>
+          </li>
+        </ol>
+      </aside>
+      <section class="studio">
+        <h2>LINK QR</h2>
+        <div class="hints">
+          <article>
+            <div class="hint-head">
+              <span class="num"><img src="/assets/bullet.svg" alt="" width="32" height="32" /><span>1</span></span>
+              <p>Isi form sesuai QR yang ingin dibuat</p>
+            </div>
+          </article>
+          <article>
+            <div class="hint-head">
+              <span class="num"><img src="/assets/bullet.svg" alt="" width="32" height="32" /><span>2</span></span>
+              <p>Klik Buat Kode dan hasilnya akan muncul di panel Hasil QR siap unduh</p>
+            </div>
+          </article>
+        </div>
+        <form id="form">
+          <label class="field">
+            <span>Tautan</span>
+            <input name="url" type="text" inputmode="url" placeholder="https://contoh.com" autocomplete="url" />
+          </label>
+          <div class="meter" id="meter">
+            <p class="level-label" id="level-label">Level Error Correction: High</p>
+            <div class="meter-track">
+              <div class="meter-bar"><span id="meter-fill"></span></div>
+              <span class="tick" style="left: 43.11%" data-level="H"><span>H</span></span>
+              <span class="tick" style="left: 56.32%" data-level="Q"><span>Q</span></span>
+              <span class="tick" style="left: 78.94%" data-level="M"><span>M</span></span>
+              <span class="tick end" style="left: 100%" data-level="L"><span>L</span></span>
+            </div>
+            <p id="meter-label">0 / 2.953 byte</p>
+          </div>
+          <p class="form-error" id="form-error" role="alert" hidden></p>
+          <button class="btn" type="submit">Buat QR</button>
+        </form>
+      </section>
+      <aside class="result">
+        <div class="result-card">
+          <h2>Hasil QR</h2>
+          <div class="qr-stage" id="qr-stage"><p>QR muncul di sini</p></div>
+          <p class="meta" id="meta" hidden></p>
+          <div class="downloads" id="downloads" hidden>
+            <button class="ghost" type="button" id="save-png">Unduh PNG</button>
+            <button class="ghost" type="button" id="save-svg">Unduh SVG</button>
+          </div>
+          <div class="decoded" id="decoded" hidden></div>
+        </div>
+      </aside>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

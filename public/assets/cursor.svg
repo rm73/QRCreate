@@ -1,0 +1,23 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="84.3659" height="95.6456" viewBox="0 0 84.3659 95.6456" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="illustration">
+<g id="pointer" filter="url(#filter0_d_0_4)">
+<path d="M27.7952 68.4293L17.7258 16.0682L62.0314 42.2487L39.8786 48.2904L27.7952 68.4293Z" fill="black"/>
+<mask id="stroke0_0_4" maskUnits="userSpaceOnUse" x="11.7258" y="7.06816" width="61" height="73" fill="black">
+<rect fill="white" x="11.7258" y="7.06816" width="61" height="73"/>
+<path d="M27.7952 68.4293L17.7258 16.0682L62.0314 42.2487L39.8786 48.2904L27.7952 68.4293Z"/>
+</mask>
+<path d="M17.7258 16.0682L27.7952 68.4293L39.8786 48.2904L62.0314 42.2487L17.7258 16.0682Z" stroke-width="8.05556" stroke-linecap="square" stroke="white" mask="url(#stroke0_0_4)"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_0_4" x="9.53674e-07" y="0" width="84.3659" height="95.6456" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="4.02778"/>
+<feGaussianBlur stdDeviation="6.04167"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.35 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_4"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_4" result="shape"/>
+</filter>
+</defs>
+</svg>
