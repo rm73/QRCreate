@@ -2,7 +2,7 @@
   "name": "mulmed-qr",
   "version": "1.0.0",
   "private": true,
-  "description": "QR generator for links, Wi-Fi, images, and GIFs. Static files in public/, Node handler in api/qr.js for Vercel.",
+  "description": "QRku for links, Wi-Fi, images, and GIFs. Static files in public/, Node handler in api/qr.js for Vercel.",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js"

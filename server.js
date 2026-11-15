@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname, "public")));
 if (!process.env.VERCEL) {
   const port = Number(process.env.PORT) || 3000;
   app.listen(port, () => {
-    console.log(`QR generator siap di http://localhost:${port}`);
+    console.log(`QRku siap di http://localhost:${port}`);
   });
 }
 
