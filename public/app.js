@@ -30,7 +30,17 @@ function startGenerator(kind) {
     form.elements.hidden.addEventListener("change", refreshMeter);
   }
   if (kind === "link") form.elements.url.addEventListener("input", refreshMeter);
-  if (kind === "image" || kind === "gif") bindDrop(kind);
+  if (kind === "image" || kind === "gif") {
+    bindDrop(kind);
+    const replace = document.querySelector("#replace-file");
+    const clear = document.querySelector("#clear-file");
+    if (replace) replace.addEventListener("click", () => {
+      const input = document.querySelector(`#${kind}-drop input`);
+      input.value = "";
+      input.click();
+    });
+    if (clear) clear.addEventListener("click", clearFile);
+  }
 
   const sample = document.querySelector(kind === "gif" ? "#sample-gif" : "#sample-svg");
   if (sample) {
@@ -119,6 +129,36 @@ function startGenerator(kind) {
     const preview = drop.querySelector(".drop-preview");
     preview.hidden = false;
     preview.src = src;
+    const actions = document.querySelector("#file-actions");
+    if (actions) actions.hidden = false;
+  }
+
+  function clearFile() {
+    picked.file = null;
+    picked.sample = false;
+    latest = null;
+    const drop = document.querySelector(`#${kind}-drop`);
+    const input = drop.querySelector("input");
+    input.value = "";
+    drop.classList.remove("has-file");
+    const name = drop.querySelector(".drop-name");
+    name.hidden = true;
+    name.textContent = "";
+    const preview = drop.querySelector(".drop-preview");
+    if (preview.src.startsWith("blob:")) URL.revokeObjectURL(preview.src);
+    preview.hidden = true;
+    preview.removeAttribute("src");
+    const actions = document.querySelector("#file-actions");
+    if (actions) actions.hidden = true;
+    const note = document.createElement("p");
+    note.textContent = "QR muncul di sini";
+    qrStage.replaceChildren(note);
+    meta.hidden = true;
+    downloads.hidden = true;
+    decoded.hidden = true;
+    decoded.replaceChildren();
+    formError.hidden = true;
+    refreshMeter();
   }
 
   async function measure() {

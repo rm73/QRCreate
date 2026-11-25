@@ -388,6 +388,18 @@ select {
   line-height: 24px;
 }
 
+.file-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.file-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .drop.drag { border-color: var(--blue); background: #eef2ff; }
 
 .text-btn {

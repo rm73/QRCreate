@@ -18,7 +18,7 @@
         <ol class="steps">
           <li>
             <span class="num light">1</span>
-            <p>Format yang diterima: SVG, PNG, JPEG, atau WebP. Kode HTML-nya harus muat dalam 2.953 byte.</p>
+            <p>Format yang diterima: SVG, PNG, JPEG, atau WebP. Panjang tautan HTML mengikuti ukuran berkas, dan harus muat dalam 2.953 byte.</p>
           </li>
           <li>
             <span class="num light">2</span>
@@ -56,6 +56,16 @@
             <img class="drop-preview" alt="" hidden />
             <span class="drop-name" hidden></span>
           </label>
+          <div class="file-actions" id="file-actions" hidden>
+            <button class="ghost file-action" type="button" id="replace-file">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <path d="M20 12a8 8 0 1 1-2.3-5.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                <path d="M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              ubah image
+            </button>
+            <button class="ghost file-action" type="button" id="clear-file">Hapus</button>
+          </div>
           <button class="text-btn" type="button" id="sample-svg">Contoh Gambar</button>
           <div class="meter" id="meter">
             <p class="level-label" id="level-label">Level Error Correction: High</p>
