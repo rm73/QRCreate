@@ -241,8 +241,8 @@ function startGenerator(kind) {
     image.src = data.png;
     image.alt = `QR ${data.label}`;
     qrStage.append(image);
-    meta.hidden = false;
-    meta.textContent = `${data.label} · versi ${data.version} · ${LEVEL_NAME[data.level] || data.level} · ${data.bytes.toLocaleString("id-ID")} / ${LIMITS.L.toLocaleString("id-ID")} byte`;
+    meta.hidden = true;
+    meta.textContent = "";
     downloads.hidden = false;
     renderDecoded(data);
   }
