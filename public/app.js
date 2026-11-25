@@ -166,9 +166,10 @@ function startGenerator(kind) {
     if (kind === "wifi") return { bytes: utf8Size(wifiText()), fileBytes: 0 };
     const file = await currentFile();
     if (!file) return { bytes: 0, fileBytes: 0 };
-    if (kind === "image" && typeof imageHtmlLink === "function") {
+    if ((kind === "image" || kind === "gif") && typeof imageHtmlLink === "function") {
       try {
-        const built = imageHtmlLink(file.binary, file.mime, file.name, location.origin);
+        const origin = kind === "gif" ? await scanHost() : location.origin;
+        const built = imageHtmlLink(file.binary, file.mime, file.name, origin, kind === "gif");
         return { bytes: built.bytes, fileBytes: file.bytes };
       } catch (error) {
         return { bytes: LIMITS.L + 1, fileBytes: file.bytes };
