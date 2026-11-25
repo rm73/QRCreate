@@ -47,7 +47,6 @@ function startGenerator(kind) {
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (kind === "image" || kind === "gif") return;
     const id = ++requestId;
     formError.hidden = true;
     const button = form.querySelector("button[type=submit]");
@@ -127,12 +126,17 @@ function startGenerator(kind) {
     if (kind === "wifi") return { bytes: utf8Size(wifiText()), fileBytes: 0 };
     const file = await currentFile();
     if (!file) return { bytes: 0, fileBytes: 0 };
-    const ext = kind === "gif" ? "gif" : "png";
-    const host = location.hostname === "localhost" || location.hostname === "127.0.0.1"
-      ? `192.168.0.10:${location.port || "3000"}`
-      : location.host;
+    if (kind === "image" && typeof imageHtmlLink === "function") {
+      try {
+        const built = imageHtmlLink(file.binary, file.mime, file.name, location.origin);
+        return { bytes: built.bytes, fileBytes: file.bytes };
+      } catch (error) {
+        return { bytes: LIMITS.L + 1, fileBytes: file.bytes };
+      }
+    }
+    const origin = await scanHost();
     return {
-      bytes: utf8Size(`${location.protocol}//${host}/file/${"a".repeat(16)}.${ext}`),
+      bytes: utf8Size(`${origin}/file/${"a".repeat(16)}.gif`),
       fileBytes: file.bytes,
     };
   }
@@ -218,8 +222,25 @@ function startGenerator(kind) {
       visual.alt = data.label;
       visual.src = data.file.href;
       const note = document.createElement("p");
-      note.textContent = preview;
+      note.textContent = `HP membuka ${preview}`;
       decoded.append(visual, note);
+      return;
+    }
+    const page = htmlFromLink(preview);
+    if (page) {
+      const frame = document.createElement("iframe");
+      frame.sandbox = "";
+      frame.title = data.label;
+      frame.srcdoc = page;
+      const link = document.createElement("a");
+      link.href = preview;
+      link.textContent = preview;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      const note = document.createElement("p");
+      note.textContent = "Ketuk tautan ini di HP.";
+      note.append(document.createElement("br"), link);
+      decoded.append(frame, note);
       return;
     }
     if (preview.startsWith("http://") || preview.startsWith("https://")) {
@@ -234,7 +255,29 @@ function startGenerator(kind) {
     }
   }
 
-  function download(href, name) {
+  function htmlFromLink(link) {
+  try {
+    if (link.startsWith("data:text/html")) {
+      const comma = link.indexOf(",");
+      const meta = link.slice(0, comma);
+      const data = link.slice(comma + 1);
+      const bytes = meta.includes(";base64")
+        ? Uint8Array.from(atob(data), (char) => char.charCodeAt(0))
+        : new TextEncoder().encode(decodeURIComponent(data));
+      return new TextDecoder().decode(bytes);
+    }
+    const url = new URL(link);
+    const code = url.searchParams.get("d") || (url.hash.length > 1 ? decodeURIComponent(url.hash.slice(1)) : "");
+    if (!code || !/\/v$/.test(url.pathname)) return "";
+    const pad = code.length % 4 ? "=".repeat(4 - (code.length % 4)) : "";
+    const b64 = code.replace(/-/g, "+").replace(/_/g, "/") + pad;
+    return new TextDecoder().decode(Uint8Array.from(atob(b64), (char) => char.charCodeAt(0)));
+  } catch (error) {
+    return "";
+  }
+}
+
+function download(href, name) {
     const link = document.createElement("a");
     link.href = href;
     link.download = name;
@@ -254,6 +297,23 @@ function startGenerator(kind) {
   }
 
   refreshMeter();
+}
+
+let scanOrigin = "";
+
+async function scanHost() {
+  if (scanOrigin) return scanOrigin;
+  try {
+    const response = await fetch("/api/reach");
+    const data = await response.json();
+    if (response.ok && data.origin) {
+      scanOrigin = data.origin;
+      return scanOrigin;
+    }
+  } catch (error) {
+    scanOrigin = "";
+  }
+  return location.origin;
 }
 
 function levelFor(bytes) {

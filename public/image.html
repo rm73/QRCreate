@@ -18,15 +18,15 @@
         <ol class="steps">
           <li>
             <span class="num light">1</span>
-            <p>Format yang diterima: SVG, PNG, JPEG, atau WebP. Maksimal 5 MB.</p>
+            <p>Format yang diterima: SVG, PNG, JPEG, atau WebP. Kode HTML-nya harus muat dalam 2.953 byte.</p>
           </li>
           <li>
             <span class="num light">2</span>
-            <p>QR menyimpan tautan ke berkas di komputer ini, bukan isi gambarnya.</p>
+            <p>Gambar diubah menjadi kode di dalam tautan https. QR menyimpan tautan itu, tanpa menyimpan berkas dan tanpa memakai komputer ini.</p>
           </li>
           <li>
             <span class="num light">3</span>
-            <p>HP harus satu Wi-Fi. Saat dipindai, browser membuka gambarnya langsung.</p>
+            <p>Kamera HP menampilkan tautan yang bisa diketuk. Halaman itu menggambar ulang gambar dari kode di dalam tautan.</p>
           </li>
         </ol>
       </aside>
@@ -69,8 +69,7 @@
             <p id="meter-label">0 / 2.953 byte</p>
           </div>
           <p class="form-error" id="form-error" role="alert" hidden></p>
-          <button class="btn" type="button" disabled>Buat QR</button>
-          <p class="paused">Pembuatan QR gambar sedang dinonaktifkan.</p>
+          <button class="btn" type="submit">Buat QR</button>
         </form>
       </section>
       <aside class="result">
@@ -86,6 +85,7 @@
         </div>
       </aside>
     </main>
+    <script src="/image-link.js"></script>
     <script src="/app.js"></script>
   </body>
 </html>

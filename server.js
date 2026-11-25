@@ -1,6 +1,6 @@
 const path = require("path");
 const express = require("express");
-const { createQr } = require("./lib/qr");
+const { createQr, reachableOrigin } = require("./lib/qr");
 const { openFile } = require("./lib/files");
 
 const app = express();
@@ -21,6 +21,15 @@ app.post("/api/qr", async (req, res) => {
   }
 });
 
+app.get("/api/reach", (req, res) => {
+  try {
+    const host = req.get("origin") || `${req.protocol}://${req.get("host")}`;
+    res.json({ origin: reachableOrigin(host) });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 app.get("/file/:name", (req, res) => {
   const file = openFile(req.params.name);
   if (!file) {
@@ -32,6 +41,14 @@ app.get("/file/:name", (req, res) => {
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("Cache-Control", "public, max-age=86400");
   res.send(file.buffer);
+});
+
+app.get("/v", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "v.html"));
+});
+
+app.get("/image-link.js", (req, res) => {
+  res.type("application/javascript").sendFile(path.join(__dirname, "lib", "image-link.js"));
 });
 
 app.get(["/link", "/wifi", "/image", "/gif"], (req, res) => {
@@ -50,8 +67,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 if (!process.env.VERCEL) {
   const port = Number(process.env.PORT) || 3000;
-  app.listen(port, () => {
-    console.log(`QRku siap di http://localhost:${port}`);
+  app.listen(port, "0.0.0.0", () => {
+    let phone = "";
+    try {
+      phone = reachableOrigin(`http://localhost:${port}`);
+    } catch (error) {
+      phone = "";
+    }
+    console.log(phone ? `QRku siap di http://localhost:${port} · HP ${phone}` : `QRku siap di http://localhost:${port}`);
   });
 }
 
